@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <form id="regForm">
+    <h2 style="text-align:center; margin-bottom: 25px;">Registration Form</h2>
+
+    <div class="row">
+      <div>
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" name="fname" required>
+      </div>
+      <div>
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="lname" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required>
+      </div>
+      <div>
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" min="0" max="120" readonly>
+      </div>
+    </div>
+
+    <div class="gender">
+      <label>Gender</label>
+      <label><input type="radio" name="gender" value="Male" required> Male</label>
+      <label><input type="radio" name="gender" value="Female"> Female</label>
+      <label><input type="radio" name="gender" value="Other"> Other</label>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10,11}" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" minlength="6" required>
+        <div class="show-pass">
+          <input type="checkbox" id="showPass"> Show Password
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="cpassword">Confirm Password</label>
+        <input type="password" id="cpassword" name="cpassword" required>
+        <div class="show-pass">
+          <input type="checkbox" id="showCPass"> Show Password
+        </div>
+        <div id="passError" class="error"></div>
+      </div>
+    </div>
+
+    <div class="checkbox">
+      <input type="checkbox" id="terms" required>
+      <label for="terms">I agree to the terms and conditions</label>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Auto age calculation
+    document.getElementById("dob").addEventListener("change", function() {
+      const dob = new Date(this.value);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const m = today.getMonth() - dob.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+      document.getElementById("age").value = age;
+    });
+
+    // Password match validation
+    document.getElementById("regForm").addEventListener("submit", function(e) {
+      const pass = document.getElementById("password").value;
+      const cpass = document.getElementById("cpassword").value;
+      const errorDiv = document.getElementById("passError");
+
+      if (pass !== cpass) {
+        e.preventDefault();
+        errorDiv.textContent = "Passwords do not match!";
+      } else {
+        errorDiv.textContent = "";
+        alert("Form submitted successfully!");
+      }
+    });
+
+    // Show/Hide Password
+    document.getElementById("showPass").addEventListener("change", function() {
+      const passField = document.getElementById("password");
+      passField.type = this.checked ? "text" : "password";
+    });
+
+    document.getElementById("showCPass").addEventListener("change", function() {
+      const cPassField = document.getElementById("cpassword");
+      cPassField.type = this.checked ? "text" : "password";
+    });
+  </script>
+</body>
+</html>
